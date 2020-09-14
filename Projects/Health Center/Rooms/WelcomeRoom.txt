@@ -1,0 +1,13 @@
+%g%lWelcome to the Fitness and Health Center on %y%lThe Chatting Zone%g%l.%x
+
+%g%lWhether your goal is to %y%leat healthier%g%l, obtain a %y%lhealthier weight%g%l (gain or loss), or %y%limprove your lifestyle%g%l - you've found
+a place to help you achieve your goals. The main objective of the accountability center is to create a place where you can form a %c%lgroup of
+friends%g%l that can help motivate you, you can help motivate them, and you can help each other hit your goals. It can be %r%lvery hard%g%l to take
+the first step .. but you're here, and that's awesome!%x
+
+%g%lWant to set a new goal? Type '%w%lSetGoal <WeightGoal> = [lose/gain]%g%l'%x
+%g%lWant log a weigh in? Type '%w%lWeighIn <CurrentWeight>%g%l'%x
+%g%lWant to see your progress? Type '%w%lProgress%g%l'%x
+%g%lWant to see your weigh in history? Type '%w%lHistory%g%l'%x
+%g%lWant to see convert kg to lbs for tracking? Type '%w%lKgToPounds <WeightToConvert>%g%l'%x
+%g%lNeed help with any of the above commands? Type '%w%lhelp <command>%g%l' for more information.

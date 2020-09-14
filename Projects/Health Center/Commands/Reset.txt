@@ -1,0 +1,22 @@
+REM Created by Dawgeth (Matt) on 9/9/2020
+REM Reset your goal/weighins from the Health Center system
+REM #44217 - This command
+REM #36356 - Goals Array
+REM #36270 - WeighIns Array
+@chpid
+
+REM Confirm input
+@if {@eval not {@eval "$3" = "all = yes"}} do
+    @echo {@?drop #44217}
+    @break
+@end
+
+@if {@?exists #36356[{@?id}]} do
+    @dest #36356[{@?id}]
+@end
+
+@if {@?exists #36270[{@?id}]} do
+    @dest #36270[{@?id}]
+@end
+
+@echo %g%lYour weight loss or gain journey has been reset. To start over, set a new goal with the '%w%lSetGoal%g%l' command.%x

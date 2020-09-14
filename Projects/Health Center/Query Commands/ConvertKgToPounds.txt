@@ -1,0 +1,9 @@
+REM Started by Dawgeth / MTD - 9/9/2020
+REM Use this command to convert from kg to lbs
+REM #44249 - This command
+
+REM Check to make sure the input is numeric / valid parameters are provided
+@if {@eval "$3" = ""} do @returnvalue false
+@if {@eval {@?isnum $1} == 0} do @returnvalue false
+
+@returnvalue {@eval 0:($1 * 2.205)}

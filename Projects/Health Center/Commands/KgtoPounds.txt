@@ -1,0 +1,16 @@
+REM Started by Dawgeth / MTD - 8/29/2020
+REM Convert kg to pounds
+REM #36504 - This command
+
+REM Check to make sure the input is numeric / valid parameters are provided
+@if {@eval "$3" = ""} do
+    @echo {@?drop #36504}
+    @break
+@else {@eval {@?isnum $1} == 0} do
+    @echo %g%lYou can only enter numeric values when converting kg to pounds. (ie: '%w%lKgToPounds 123%g%l')%x
+    @break
+@end
+
+REM Calculate the new value
+@temp pounds = {@eval 0:($1 * 2.205)}
+@echo %w%l$3 %g%lkg is approximately %w%l$(pounds) %g%llbs.%x

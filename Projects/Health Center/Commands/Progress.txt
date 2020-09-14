@@ -1,0 +1,86 @@
+REM Started by Dawgeth / MTD - 8/29/2020
+REM Display your current goal progress
+REM #36499 = This command
+REM #36356 = Goals Array
+REM #36270 = WeighIns Array
+@chpid
+
+REM Get Goal Weight and Goal
+@if {@?exists #36356[{@?id}]} do
+    @temp goalWeight = {@?itemno 1 ";" "{@?desc #36356[{@?id}]}"}
+    @temp goal = {@?itemno 2 ";" "{@?desc #36356[{@?id}]}"}
+@else
+    @temp goalWeight = Not Set
+    @temp goal = Not Set
+@end
+
+REM Count Weigh Ins and get First/Last weigh in value
+@temp userId = {@?id}
+@temp weighInCount = {@?noitems ";" "{@?desc #36270[$(userId)]"}
+@temp weighInData = {@?desc #36270[$(userId)]}
+
+@if {@eval $(weighInCount) > 0} do
+    @temp firstWeighIn = {@?itemno 1 ";" "$(weighInData)"}
+    @temp firstWeighInDate = {@?realtime {@?itemno 1 "|" "$(firstWeighIn)"} = datetime = mm/dd/yyyy hh:mm:ss}
+    @temp firstWeighInWeight = {@?itemno 2 "|" "$(firstWeighIn)"}
+@end
+
+@if {@eval $(weighInCount) > 1} do
+    @temp lastWeighIn = {@?itemno $(weighInCount) ";" "$(weighInData)"}
+    @temp lastWeighInDate = {@?realtime {@?itemno 1 "|" "$(lastWeighIn)"} = datetime = mm/dd/yyyy hh:mm:ss}
+    @temp lastWeighInWeight = {@?itemno 2 "|" "$(lastWeighIn)"}
+@end
+
+@echo %c%{@?pad 0 "-="}
+@echo %y%lYour Health Journey...
+@echo %c%{@?pad 0 "-"}
+
+REM Calculate and set variables / label text
+@if {@eval $(goal) = "lose"} do
+@temp totalToGo = {@eval $(firstWeighInWeight) - $(goalWeight)}
+@temp total = {@eval $(firstWeighInWeight) - $(lastWeighInWeight)}
+@temp totalTilGoal = {@eval $(lastWeighInWeight) - $(goalWeight)}
+@temp percentage = {@eval 2:($(total).0 / $(firstWeighInWeight).0 * 100)}
+@temp percentageToGoal = {@eval 2:($(total).0 / $(totalToGo).0 * 100)}
+
+@temp progressLabel = Weight Loss Progress
+@temp totalLabel = You've lost a total of
+@temp percentageLabel = You've lost
+@temp goalMet = {@eval $(goalWeight) >= $(lastWeighInWeight)}
+@else
+@temp totalToGo = {@eval $(goalWeight) - $(firstWeighInWeight)}
+@temp total = {@eval $(lastWeighInWeight) - $(firstWeighInWeight)}
+@temp totalTilGoal = {@eval $(goalWeight) - $(lastWeighInWeight)}
+@temp percentage = {@eval 2:($(totalGained).0 / $(firstWeighInWeight).0 * 100)}
+@temp percentageToGoal = {@eval 2:($(totalGained).0 / $(totalToGain).0 * 100)}
+
+@temp progressLabel = Weight Gain Progress
+@temp totalLabel = You've gained a total of
+@temp percentageLabel = You've gained
+@temp goalMet = {@eval $(goalWeight) <= $(lastWeighInWeight)}
+@end
+
+REM Output if the goal has been met, or the users progress.
+@if {@eval $(goalMet)} do
+    @echo %y%lCongrats! %g%lYou've met your goal!! To set a new goal, use the %w%lSetGoal %g%lcommand.%x
+@else
+    @echo %g%lYour Goal: %w%l{@?capitalise "$(goal)"}%x
+    @echo %g%lYour Goal Weight: %w%l$(goalWeight)%x
+    @echo %g%lYou've weighed in %w%l$(weighInCount) %g%ltime(s).%x
+    @if {@?isnum $(firstWeighInWeight)} do @echo %g%lYour first weigh in came in at %w%l$(firstWeighInWeight) %g%lon
+    %w%l$(firstWeighInDate)%g%l.%x
+
+@if {@?isnum $(lastWeighInWeight)} do
+@echo %g%l$(totalLabel) %w%l$(total)%g%llbs.%x
+@echo %g%lYou have a total of %w%l$(totalToGo)%g%llbs to $(goal).%x
+@echo %g%lYou have %w%l$(totalTilGoal)%g%llbs to go until your goal.%x
+@echo %g%l$(percentageLabel) %w%l$(percentage)%g%l% of your initial weight.%x
+@echo %g%lYou're %w%l$(percentageToGoal)%g%l% of the way to your goal.%x
+@if {@eval $(percentageToGoal) > 1} do @echo {@?newline}%g%l$(progressLabel): %x{ProgressBar {rounddown $(percentageToGoal)}/100 = {@eval
+{@?wrap} - 50}}
+@else
+@echo {@?newline}%g%lAfter your second weigh in, more information will become available.%x
+@end
+@end
+
+@echo %c%{@?pad 0 "-="}

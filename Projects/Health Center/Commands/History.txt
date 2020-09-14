@@ -1,0 +1,42 @@
+REM Started by Dawgeth / MTD - 8/30/2020
+REM Command to display your weigh in history
+REM #36690 - This command
+REM #36270 - WeighIns Array
+
+@chpid
+
+@echo %c%{@?pad 0 "-="}
+@echo %y%lYour Weigh In History...
+@echo %c%{@?pad 0 "-"}
+
+REM Command variables
+@temp userId = {@?id}
+@temp weighInCount = {@?noitems ";" "{@?desc #36270[$(userId)]"}
+@temp weighInData = {@?desc #36270[$(userId)]}
+
+REM Process weigh in data
+@if {@eval $(weighInCount) > 0} do
+    @for 1 to {@?noitems ";" $(weighInData)} do
+        @temp weighIn = {@?itemno $4 ";" "$(weighInData)"}
+        @temp weighInDate = {@?realtime {@?itemno 1 "|" "$(weighIn)"}}
+        @temp weighInWeight = {@?itemno 2 "|" "$(weighIn)"}
+
+        @if {@eval $(previousWeighInWeight) < $(weighInWeight)} do
+            @temp upOrDown = %g%l+
+        @else {@eval $(previousWeighInWeight) > $(weighInWeight)} do
+            @temp upOrDown = %r%l-
+        @else {@eval $(previousWeighInWeight) = $(weighInWeight)} do
+            @temp upOrDown = %y%l=
+        @else
+            @temp upOrDown
+        @end
+    
+        @echo %g%l[%g$(weighInDate)%g%l] %c%l$(weighInWeight)  $(upOrDown)
+    
+        @temp previousWeighInWeight = $(weighInWeight)
+    @end
+@else
+    @echo %g%lSorry, you have no weigh in data. To do so, see '%w%lhelp weighin%g%l'%x
+@end
+
+@echo %c%{@?pad 0 "-="}

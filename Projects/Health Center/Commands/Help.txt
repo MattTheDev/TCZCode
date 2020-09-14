@@ -1,0 +1,11 @@
+REM Started by Dawgeth / MTD - 8/28/2020
+REM #36271 - WeighIn Command
+REM #36352 - SetGoal Command
+REM #36504 - KgToPounds Command
+@chpid
+@if {@eval "$3" = "weighin"} do @mexec {@echo {@?odrop #36271}}{@break}
+@if {@eval "$3" = "setgoal"} do @mexec {@echo {@?odrop #36352}}{@break}
+@if {@eval "$3" = "kgtopounds"} do @mexec {@echo {@?odrop #36504}}{@break}
+@if {@eval "$3" = "progress"} do @mexec {@echo {@?odrop #36499}}{@break}
+@if {@eval "$3" = "history"} do @mexec {@echo {@?odrop #36690}}{@break}
+|help $3

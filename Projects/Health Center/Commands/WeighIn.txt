@@ -1,0 +1,30 @@
+REM Started by Dawgeth / MTD - 8/28/2020
+REM Weigh in to track your daily progress
+REM #36271 = This command
+REM #36270 = WeighIns Array
+@chpid
+
+REM Check to make sure the input is numeric
+@if {@eval "$3" = ""} do
+    @echo {@?drop #36271}
+    @break
+@end
+@if {@eval {@?isnum $3} == 0} do
+    @echo %g%lYou can only enter numeric values when weighing in. (ie: '%w%lWeighIn 123%g%l')%x
+    @break
+@end
+
+REM Command Variables
+@temp weighInTime = {@?time}
+@temp weighInRealTime = {@?realtime $(weighInTime)}
+@temp userId = {@?id}
+@temp weighIn = $(weighInTime)|$3
+
+REM Append weigh in, if user element already exists.
+@if {@?exists #36270[{@?id}]} do
+    @temp weighIn = {@?desc #36270[{@?id}]};$(weighIn)
+@end
+
+REM Set the weigh in value in the array and output to user
+@desc #36270[$(userId)] = $(weighIn)
+@echo %g%lYour weigh in for %w%l$(weighInRealTime) %g%lhas been recorded at %w%l$3%g%l pounds.%x

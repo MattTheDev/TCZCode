@@ -1,0 +1,23 @@
+REM Started by Dawgeth / MTD - 8/29/2020
+REM Set your goal for your journey
+REM #36352 = This command
+REM #36356 = Goals Array
+@chpid
+
+REM Check to make sure the input is numeric / valid parameters are provided
+@if {@eval "$2" = ""} do
+    @echo {@?drop #36352}
+    @break
+@else {@eval {@?isnum $1} == 0} do
+    @echo %g%lYou can only enter numeric values when setting your goal. (ie: '%w%lSetGoal 123 = lose%g%l')%x
+    @break
+@else {@eval not {@eval $2 = "gain"} && not {@eval $2 = "lose"}} do
+    @echo %g%lYou have to provide '%w%lgain%g%l' or '%w%llose%g%l' when setting your goal. (ie: '%w%lSetGoal 123 = lose%g%l')%x
+    @break
+@end
+
+REM Get today, and check to see if it exists in the tracking array
+@if {@?exists #36356[{@?id}]} do @echo %g%lYour goal weight has been updated to %w%l$1 %g%lpounds and you are trying to %w%l$2 %g%lweight%g%l.%x
+@if {@eval not {@?exists #36356[{@?id}]}} do @echo %g%lYour goal weight has been set to %w%l$1%g%lpounds and you are trying to %w%l$2 %g%lweight%g%l.%x
+
+@desc #36356[{@?id}] = $1;$2
