@@ -1,0 +1,45 @@
+REM Created by Dawgeth (Matt) - 9/9/2020
+REM Want to know how far you have until Midspot? Want to let someone know it's time to move along? This command will help!
+@chpid
+
+@temp hitMe = 0
+@temp beforeMe = 0
+@temp afterMe = 0
+@temp userAfterList =
+
+REM @with connected do
+@with elements #45317 do
+    @if {@eval {@?id} = $6} do
+        @temp hitMe = 1
+    @else {@eval $(hitMe) = 0} do
+        @temp beforeMe = {@eval $(beforeMe) + 1}
+    @else
+        @temp afterMe = {@eval $(afterMe) + 1}
+        @temp userAfterList = {@?insert "$6" LAST ";" "$(userAfterList)"}
+    @end
+@end
+
+REM If you're already Botspot, no need to continue.
+@if {@eval $(afterMe) = 0} do
+    @echo %g%lYou're already [%w%lBOTSPOT%g%l]!%x
+    @break
+@end
+
+REM Process conditions and determine output
+@if {@eval {@eval $(beforeMe) < $(afterMe)} and {@eval $(beforeMe) > 0}} do
+    @temp randomUser = {@?itemno {@?rand 1 = {@?noitems ";" $(userAfterList)}} ";" $(userAfterList)}
+    @temp toMidspot = {@eval $(afterMe) - $(beforeMe)}
+    @temp output = %g%lhas to wait out %y%l$(toMidspot) %g%lusers for %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l! Hey, {@?status *$(randomUser) = color}{@?realname *$(randomUser)}%g%l, time to move on.
+@else {@eval {@eval $(beforeMe) < $(afterMe)} and {@eval $(beforeMe) = 0}} do
+    @temp toMidspot = $(afterMe)
+    @temp output = %g%lis looking for %y%l$(toMidspot) %g%lusers to log in, to get that %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l!
+@else {@eval $(beforeMe) = $(afterMe)} do
+    @echo %g%lYou're already %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l!%x
+    @break
+@else
+    @temp toMidspot = {@eval $(beforeMe) - $(afterMe)}
+    @temp output = %g%lis looking for %y%l$(toMidspot) %g%lusers to log in, to get that %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l!
+@end
+
+@if {@eval "{@?cmdname}" = "midme"} do |emote $(output)
+@if {@eval "{@?cmdname}" = "fmidme"} do |tell friends = :$(output)
