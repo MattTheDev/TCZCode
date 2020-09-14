@@ -1,0 +1,32 @@
+REM Spodtime Rewrite by Dawgeth - 9/10/2020
+REM Display your, or anothers, time until spod.
+REM #45035 - This command
+
+@chpid
+@temp self = 0
+
+@if {@eval $1 = ""} do
+    @temp userId = {@?id}
+    @temp self = 1
+@else {@eval not {@?exists *$1}} do
+    @echo {@?drop #45035}
+    @break
+@else {@eval not {@?connected *$1}} do
+    @echo %g%lSorry, {@?status *$1 = colour}{@?realname *$1} %g%lisn't connected right now.%x
+    @break
+@else
+    @temp userID = {@?id *$1}
+@end
+
+@temp elapsedTime = {@eval 28800 - {@eval {@?time} - {@?lastconnected $(userId)}}}
+@temp tts = {@?interval $(elapsedTime)}
+
+@if {@eval $(self) = 1} do
+    @if {@eval $(elapsedTime) <= 0} do @mexec \{@echo %g%lYou are already *SPOD*!}\{@break}
+    @if {@eval {@eval "{@?cmdname}" = "tts"} || {@eval "{@?cmdname}" = "#45035"}} do |emote %g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval "{@?cmdname}" = "ftts"} do |tell friends = :%g%lhas %y%l$(tts) %g%luntil *SPOD*
+@else
+    @if {@eval $(elapsedTime) <= 0} do @mexec \{@echo {@?status *$1 = colour}{@?realname *$1} %g%lalready has *SPOD*!}\{@break}
+    @if {@eval {@eval "{@?cmdname}" = "tts"} || {@eval "{@?cmdname}" = "#45035"}} do |say {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval "{@?cmdname}" = "ftts"} do |tell friends = {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
+@end
