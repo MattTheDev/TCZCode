@@ -1,0 +1,57 @@
+REM Started 9/8/2020 by Dawgeth (Matt)
+REM Command starts a new game of Letter Hunt.
+REM #42172 - This command
+REM #35399 - LetterHuntQuotes Array
+REM #37148 - LetterHuntData Array
+REM #36560 - LetterHunterPlayers Array
+
+@if {@eval not {@eval {@?drop #42172} = ""}} do
+    @echo %g%lSorry, there is already a Letter Hunt game in progress.
+    @break
+@end
+
+@temp randomQuoteCategoryNumber = {@?rand 1 = {@?noelements #35399}}
+@temp randomQuoteCategory = {@?index #35399[$(randomQuoteCategoryNumber)]}
+@temp randomQuoteCategoryName = {@?index #35399[$(randomQuoteCategoryNumber)]}
+@temp randomQuoteCategoryList = {@?desc #35399[$(randomQuoteCategory)]}
+@temp randomQuote = {@?capitalise {@?itemno {@?rand 1 = {@?noitems ";" $(randomQuoteCategoryList)}} ";" $(randomQuoteCategoryList)}}
+@temp roomList = {@?desc #37148[Warpable]}
+
+@drop #42172 = $(randomQuote)
+
+REM Create / Setup first letter of the string
+@temp letterList = {@?leftstr 1 $(randomQuote)}
+@temp placeholder = {@?replace "$(letterList)" "_" ALL "$(randomQuote)"}
+@temp randomRoom = {@?itemno {@?rand 1 = {@?noitems ";" $(roomList)}} ";" $(roomList)}
+@thing A Letter '{@?leftstr 1 $(randomQuote)}' (Letter Hunt)
+@temp thingId = $0
+@teleport $(thingId) = $(randomRoom)
+@desc #37148[{@?leftstr 1 $(randomQuote)}] = $(thingId);$(randomRoom)
+
+REM Process the rest of the string
+@for 1 to {@?strlen $(randomQuote)} do
+    @temp currentLetter = {@?midstr $4 1 $(randomQuote)}
+    @if {@eval {@?strpos $(currentLetter) $(letterList)} = 0} do
+        @if {@?isalnum $(currentLetter)} do
+            @temp letterList = $(letterList)$(currentLetter)
+            @temp placeholder = {@?replace "$(currentLetter)" "_" ALL "$(placeholder)"}
+            
+            REM Get a random room to teleport new letter to.
+            @temp randomRoom = {@?itemno {@?rand 1 = {@?noitems ";" $(roomList)}} ";" $(roomList)}
+            
+            @thing A Letter '$(currentLetter)' (Letter Hunt)
+            @temp thingId = $0
+            @teleport $(thingId) = $(randomRoom)
+            @desc #37148[$(currentLetter)] = $(thingId);$(randomRoom)
+        @end
+    @end
+@end
+
+@odrop #42172 = $(placeholder)
+
+@for 1 to {@?noelements #36560} do
+    @temp playerId = {@?index #36560[$4]}
+    @if {@?connected {@?index #36560[$4]}} and {@?set {@?index #36560[$4]}=!haven} do
+        @notify *$(playerId) = %g%lA new round of %r%lS%y%lc%r%lr%y%la%r%lm%y%lb%r%ll%y%le%r%lr %g%lhas started. The Category is '%w%l$(randomQuoteCategoryName)%g%l' and the puzzle is: %w%l$(placeholder)
+    @end
+@end

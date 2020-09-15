@@ -23,10 +23,10 @@ REM #45035 - This command
 
 @if {@eval $(self) = 1} do
     @if {@eval $(elapsedTime) <= 0} do @mexec \{@echo %g%lYou are already *SPOD*!}\{@break}
-    @if {@eval {@eval "{@?cmdname}" = "tts"} || {@eval "{@?cmdname}" = "#45035"}} do |emote %g%lhas %y%l$(tts) %g%luntil *SPOD*
-    @if {@eval "{@?cmdname}" = "ftts"} do |tell friends = :%g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval {@eval "{@?cmdname}" = "tilspod"} || {@eval "{@?cmdname}" = "#45035"}} do |emote %g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval "{@?cmdname}" = "ftilspod"} do |tell friends = :%g%lhas %y%l$(tts) %g%luntil *SPOD*
 @else
     @if {@eval $(elapsedTime) <= 0} do @mexec \{@echo {@?status *$1 = colour}{@?realname *$1} %g%lalready has *SPOD*!}\{@break}
-    @if {@eval {@eval "{@?cmdname}" = "tts"} || {@eval "{@?cmdname}" = "#45035"}} do |say {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
-    @if {@eval "{@?cmdname}" = "ftts"} do |tell friends = {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval {@eval "{@?cmdname}" = "tilspod"} || {@eval "{@?cmdname}" = "#45035"}} do |say {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
+    @if {@eval "{@?cmdname}" = "ftilspod"} do |tell friends = {@?status *$1 = colour}{@?realname *$1} %g%lhas %y%l$(tts) %g%luntil *SPOD*
 @end
