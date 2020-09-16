@@ -5,6 +5,8 @@ REM #49417 - Reset command
 REM #49502 - StartGame command
 REM #49553 - ToggleStatus command
 REM #4996  - Found command
+REM #49420 - Letter Hunt Name property
+
 @chpid
 
 @if {@eval $1 = ""} do @mexec {@teleport {@?id} = #37143}{@break}
@@ -13,3 +15,9 @@ REM #4996  - Found command
 @if {@eval $1 = "start"} do @mexec {#49502}{@break}
 @if {@eval $1 = "found"} do @mexec {#4996 $2}{@break}
 @if {@eval $1 = "solve"} do @mexec {#13885 $2}{@break}
+
+@temp letterHuntName = {@?desc #49420}
+@temp puzzle = {@?odrop #42172}
+
+@if {@eval {@eval $1 = "hint"} && {@eval {@?strlen "$(puzzle)"} != 0}} do @echo %g%lThe current puzzle is '%w%l$(puzzle)%g%l'
+@if {@eval {@eval $1 = "hint"} && {@eval {@?strlen "$(puzzle)"} = 0}} do @echo %g%lThere isn't a game of $(letterHuntName) %g%lgoing on right now.
