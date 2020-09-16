@@ -7,8 +7,7 @@ REM Want to know how far you have until Midspot? Want to let someone know it's t
 @temp afterMe = 0
 @temp userAfterList =
 
-REM @with connected do
-@with elements #45317 do
+@with connected do
     @if {@eval {@?id} = $6} do
         @temp hitMe = 1
     @else {@eval $(hitMe) = 0} do
