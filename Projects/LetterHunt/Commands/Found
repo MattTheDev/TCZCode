@@ -1,0 +1,38 @@
+REM Created by Dawgeth - 9/16/2020
+REM #4996 - This command
+REM #42172 - LetterHunt base command
+REM #49420 - Letter Hunt Name property
+REM #37148 - LetterHuntData array
+REM #36560 - LetterHuntPlayers array
+
+@temp letterHuntName = {@?desc #49420}
+@temp player = {@?status {@?id} = colour}{@?realname}
+
+REM If not playing, no parameters provided, game isn't running, or invalid letter - display response and exit the command.
+@if {@eval not {@?exists #36560[{@?id}]}} do @mexec {@echo %g%lYou are currently not playing $(letterHuntName)%g%l. Want to join in? Type '%w%lLetterHunt%g%l'}{@break}
+@if {@eval $1 = ""} do @mexec {@echo %g%lType '%w%lLetterHunt Found = <Letter>%g%l' if you've found a letter.}{@break}
+@if {@eval {@eval {@?strlen "{@?drop #42172}"} = 0} || {@eval {@?strlen "{@?odrop #42172}"} = 0}} do @mexec {@echo %g%lThere isn't a game of $(letterHuntName) %g%lgoing on right now.}{@break}
+@if {@eval not {@?exists #37148[$1]}} do @mexec {@echo %g%lSorry, that letter is not in the current $(letterHuntName) %g%lpuzzle.}{@break}
+
+@temp letterData = {@?desc #37148[$1]}
+
+@if {@eval not {@eval {@?id here} = {@?itemno 2 ";" "$(letterData)}}} do @mexec {@echo %g%lSorry, that letter is not in this room.}{@break}
+
+@temp solution = {@?drop #42172}
+
+@dest {@?itemno 1 ";" "$(letterData)"}
+@dest #37148[$1];
+
+@temp placeholder = $(solution)
+@with elements #37148 do
+    @temp placeholder = {@?replace "$7" "_" ALL "$(placeholder)"}
+@end
+
+@odrop #42172 = $(placeholder)
+
+@with elements #36560 do
+    @temp playerId = {@?index #36560[$4]}
+    @if {@?connected {@?index #36560[$4]}} and {@?set {@?index #36560[$4]}=!haven} do
+        @notify *$(playerId) = $(player) %g%lfound a letter '%w%l$1%g%l'. Do you the know the answer to '%w%l$(placeholder)%g%l'? Type '%w%lLetterHunt Solve = <Your Answer>%g%l'
+    @end    
+@end

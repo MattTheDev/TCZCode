@@ -9,16 +9,13 @@ REM #49433 - LetterHuntConfigData Array
 
 @temp letterHuntName = {@?desc #49420}
 
-@if {@eval not {@eval {@?drop #42172} = ""}} do
-    @echo %g%lSorry, there is already a $(letterHuntName) game in progress.
-    @break
-@end
+@if {@eval not {@eval {@?drop #42172} = ""}} do @mexec {@echo %g%lSorry, there is already a $(letterHuntName) %g%lgame in progress.}{@break}
 
 @temp randomQuoteCategoryNumber = {@?rand 1 = {@?noelements #35399}}
 @temp randomQuoteCategory = {@?index #35399[$(randomQuoteCategoryNumber)]}
 @temp randomQuoteCategoryName = {@?index #35399[$(randomQuoteCategoryNumber)]}
 @temp randomQuoteCategoryList = {@?desc #35399[$(randomQuoteCategory)]}
-@temp randomQuote = {@?capitalise {@?itemno {@?rand 1 = {@?noitems ";" $(randomQuoteCategoryList)}} ";" $(randomQuoteCategoryList)}}
+@temp randomQuote = {@?itemno {@?rand 1 = {@?noitems ";" $(randomQuoteCategoryList)}} ";" $(randomQuoteCategoryList)}
 @temp roomList = {@?desc #49433[Warpable]}
 
 @drop #42172 = $(randomQuote)

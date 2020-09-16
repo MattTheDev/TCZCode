@@ -10,7 +10,7 @@ REM #37148 - LetterHuntData Array
 REM Lock this command to Dawgeth / Appy and Above.
 @if {@eval {@eval {@?id} != $(dawgethId)} && {@eval {@?privs} > 4}} do @mexec {@echo %g%lSorry, you are unable to reset the current $(letterHuntName) %g%lgame.}{@break}
 REM No game? No reset
-@if {@eval {@eval {@drop #42172 = ""}} or {@eval {@?odrop #42172 = ""}} } do @mexec {@echo %g%lThere isn't a game of $(letterHuntName) %g%lto reset.}{@break}
+@if {@eval {@eval {@?strlen "{@?drop #42172}"} = 0} || {@eval {@?strlen "{@?odrop #42172}"} = 0}} do @mexec {@echo %g%lThere isn't a game of $(letterHuntName) %g%lgoing on right now.}{@break}
 
 @with elements #37148 do
     @dest {@?itemno 1 ";" "$6"}

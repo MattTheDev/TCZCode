@@ -4,10 +4,11 @@ REM #42172 - This command
 REM #49417 - Reset command
 REM #49502 - StartGame command
 REM #49553 - ToggleStatus command
+REM #4996  - Found command
 @chpid
 
-@if {@eval $1 = ""} do @mexec {@echo %g%lNeed help? Type '%w%lLetterHunt Help%g%l'}{@break}
-
+@if {@eval $1 = ""} do @mexec {@teleport {@?id} = #37143}{@break}
 @if {@eval $1 = "play"} do @mexec {#49553}{@break}
 @if {@eval $1 = "reset"} do @mexec {#49417}{@break}
 @if {@eval $1 = "start"} do @mexec {#49502}{@break}
+@if {@eval $1 = "found"} do @mexec {#4996 $2}{@break}
