@@ -8,6 +8,6 @@ REM #49553 - ToggleStatus command
 
 @if {@eval $1 = ""} do @mexec {@echo %g%lNeed help? Type '%w%lLetterHunt Help%g%l'}{@break}
 
-@if {@eval {@eval $1 = "join"} || {@eval $1 = "leave"}} do @mexec {#49553}{@break}
+@if {@eval $1 = "play"} do @mexec {#49553}{@break}
 @if {@eval $1 = "reset"} do @mexec {#49417}{@break}
 @if {@eval $1 = "start"} do @mexec {#49502}{@break}

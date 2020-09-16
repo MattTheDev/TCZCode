@@ -3,8 +3,8 @@ people stumble across
 letters within the TCZ World.  Not all the letters need to be %y%lfound %g%l- as soon as you think you know the word you can attempt
 to %y%lsolve the puzzle%g%l.
 
-%g%lWant to play %r%lL%y%le%r%lt%y%lt%r%le%y%lr %r%lH%y%lu%r%ln%y%lt%g%l?  Type '%w%lLetterHunt Join%g%l'%x
-%g%lWant to turn off %r%lL%y%le%r%lt%y%lt%r%le%y%lr %r%lH%y%lu%r%ln%y%lt%g%l?  Type '%w%lLetterHunt Leave%g%l'%x
+%g%lWant to play %r%lL%y%le%r%lt%y%lt%r%le%y%lr %r%lH%y%lu%r%ln%y%lt%g%l?  Type '%w%lLetterHunt Play%g%l'%x
+%g%lWant to stop playing %r%lL%y%le%r%lt%y%lt%r%le%y%lr %r%lH%y%lu%r%ln%y%lt%g%l?  Type '%w%lLetterHunt Play%g%l'%x
 %g%lFound a letter to help solve the puzzle?  Type '%w%lLetterHunt Found = <Letter>%g%l'%x
 %g%lThink you have the solution?  Type '%w%lLetterHunt Guess = <Your Guess>%g%l'%x
 %g%lNeed a reminder of the puzzle?  Type '%w%lLetterHunt Puzzle%g%l'

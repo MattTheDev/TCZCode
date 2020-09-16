@@ -19,10 +19,7 @@ REM Want to know how far you have until Midspot? Want to let someone know it's t
 @end
 
 REM If you're already Botspot, no need to continue.
-@if {@eval $(afterMe) = 0} do
-    @echo %g%lYou're already [%w%lBOTSPOT%g%l]!%x
-    @break
-@end
+@if {@eval $(afterMe) = 0} do @mexec {@echo %g%lYou're already [%w%lBOTSPOT%g%l]!%x}{@break}
 
 REM Process conditions and determine output
 @if {@eval {@eval $(beforeMe) < $(afterMe)} and {@eval $(beforeMe) > 0}} do

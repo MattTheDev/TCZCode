@@ -1,1 +1,32 @@
-REM TODO
+REM Created by Dawgeth - 9/16/2020
+REM Toggles on/off in the players LetterHunt config 
+REM #49553 - this command
+REM #42172 - LetterHunt base command
+REM #36560 - LetterHuntPlayers array
+REM #49420 - LetterHuntName Property
+
+@temp letterHuntName = {@?desc #49420}
+@temp welcomeMessage = %g%lWelcome to $(letterHuntName)%g%l!
+@temp farewellMessage = %g%lThanks for playing $(letterHuntName)%g%l! To rejoin type '%w%lLetterHunt Join%g%l'!
+@temp onStatus = on
+@temp offStatus = off
+
+REM If not created, let's create the player.
+@if {@eval not {@?exists #36560[{@?id}]}} do
+    @desc #36560[{@?id}] = $(onStatus);0;0;0;0;0;0
+    @echo $(welcomeMessage)
+    @break
+@endtf he 
+
+@temp player = {@?desc #36560[{@?id}]}
+@temp status = {@?itemno 1 ";" $(player)}
+
+@if {@eval $(status) = $(offStatus)} do
+    $(status) = $(onStatus)
+    @echo $(welcomeMessage)
+    @desc #36560[{@?id}] = {@?modify "$(onStatus)" 1 ";" "$(player)"}
+@else
+    $(status) = $(offStatus)
+    @echo $(farewellMessage)
+    @desc #36560[{@?id}] = {@?modify "$(offStatus)" 1 ";" "$(player)"}
+@end
