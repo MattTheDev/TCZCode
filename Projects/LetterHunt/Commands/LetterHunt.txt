@@ -1,0 +1,11 @@
+REM Started 9/8/2020 by Dawgeth (Matt)
+REM Command starts a new game of Letter Hunt.
+REM #42172 - This command
+REM #49417 - Reset command
+REM #49502 - StartGame command
+@chpid
+
+@if {@eval $1 = ""} do @mexec {@echo %g%lNeed help? Type '%w%lLetterHunt Help%g%l'}{@break}
+
+@if {@eval $1 = "reset"} do @mexec {#49417}{@break}
+@if {@eval $1 = "start"} do @mexec {#49502}{@break}

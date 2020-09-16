@@ -1,0 +1,30 @@
+REM Created by Dawgeth 9/15/2020
+REM #42172 - LetterHunt Base Command
+REM #49420 - Letter Hunt Name Property
+REM #37148 - LetterHuntData Array
+@chpid
+
+@temp dawgethId = #47904
+@temp letterHuntName = {@?desc #49420}
+
+REM Lock this command to Dawgeth / Appy and Above.
+@if {@eval {@eval {@?id} != $(dawgethId)} && {@eval {@?privs} > 4}} do @mexec {@echo %g%lSorry, you are unable to reset the current $(letterHuntName) %g%lgame.}{@break}
+REM No game? No reset
+@if {@eval {@eval {@drop #42172 = ""}} or {@eval {@?odrop #42172 = ""}} } do @mexec {@echo %g%lThere isn't a game of $(letterHuntName) %g%lto reset.}{@break}
+
+@with elements #37148 do
+    @dest {@?itemno 1 ";" "$6"}
+    @dest #37148[$7]
+@end
+
+@temp answer = {@?drop #42172}
+
+@with elements #36560 do
+    @temp playerId = {@?index #36560[$4]}
+    @if {@?connected {@?index #36560[$4]}} and {@?set {@?index #36560[$4]}=!haven} do
+        @notify *$(playerId) = %g%lThe current round of $(letterHuntName) %g%lhas been reset. The answer to the puzzle was: %w%l$(answer)
+    @end
+@end
+
+@drop #42172 = 
+@odrop #42172 = 
