@@ -1,0 +1,32 @@
+REM Created 9/16/2020 - Dawgeth
+REM #13885 - This command
+REM #36560 - LetterHuntPlayers array
+REM #42172 - LetterHunt base command
+REM #37148 - LetterHuntData array
+REM #49420 - Letter Hunt Name property
+
+@temp letterHuntName = {@?desc #49420}
+@temp player = {@?status {@?id} = colour}{@?realname}
+@temp answer = {@?drop #42172}
+
+REM If not playing, no parameters provided, or game isn't running - display response and exit the command.
+@if {@eval not {@?exists #36560[{@?id}]}} do @mexec {@echo %g%lYou are currently not playing $(letterHuntName)%g%l. Want to join in? Type '%w%lLetterHunt%g%l'}{@break}
+@if {@eval $1 = ""} do @mexec {@echo %g%lType '%w%lLetterHunt Solve = <Your Guess>%g%l'.}{@break}
+@if {@eval {@eval {@?strlen "$(answer)"} = 0} || {@eval {@?strlen "{@?odrop #42172}"} = 0}} do @mexec {@echo %g%lThere isn't a game of $(letterHuntName) %g%lgoing on right now.}{@break}
+
+@if {@eval "$(answer)" != "$1"} do @mexec {@echo %g%lThat is not correct. Keep hunting and try again!}{@break}
+
+@with elements #36560 do
+    @temp playerId = {@?index #36560[$4]}
+    @if {@?connected {@?index #36560[$4]}} and {@?set {@?index #36560[$4]}=!haven} do
+        @notify *$(playerId) = $(player) %g%lsolved the puzzle! The answer was '%w%l$(answer)%g%l'. Congrats $(player)%g%l!
+    @end    
+@end
+
+@with elements #37148 do
+    @dest {@?itemno 1 ";" "$6"}
+    @dest #37148[$7]
+@end
+
+@drop #42172 = 
+@odrop #42172 = 

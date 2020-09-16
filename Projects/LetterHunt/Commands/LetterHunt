@@ -12,3 +12,4 @@ REM #4996  - Found command
 @if {@eval $1 = "reset"} do @mexec {#49417}{@break}
 @if {@eval $1 = "start"} do @mexec {#49502}{@break}
 @if {@eval $1 = "found"} do @mexec {#4996 $2}{@break}
+@if {@eval $1 = "solve"} do @mexec {#13885 $2}{@break}
