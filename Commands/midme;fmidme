@@ -34,7 +34,7 @@ REM Process conditions and determine output
     @break
 @else
     @temp toMidspot = {@eval $(beforeMe) - $(afterMe)}
-    @temp output = %g%lis looking for %y%l$(toMidspot) %g%lusers to log in, to get that %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l!
+    @temp output = %g%lis looking for %y%l$(toMidspot) %g%lusers to log out, to get that %m%l[%y%lMID%cS%y%lPOT%m%l]%g%l!
 @end
 
 @if {@eval "{@?cmdname}" = "midme"} do |emote $(output)
